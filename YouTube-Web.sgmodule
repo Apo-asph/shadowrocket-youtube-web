@@ -1,0 +1,14 @@
+#!name=YouTube Web
+#!desc=Experimental YouTube web response filtering; configure your own local CA before use
+
+[Rule]
+AND,((DOMAIN,www.youtube.com),(PROTOCOL,UDP)),REJECT
+AND,((DOMAIN,m.youtube.com),(PROTOCOL,UDP)),REJECT
+
+[Body Rewrite]
+http-response ^https://(www|m)\.youtube\.com/(\?|$|watch(\?|$)|youtubei/v1/(player|next|browse)([/?]|$)) adPlacements srDisabledAdPlacements playerAds srDisabledPlayerAds adSlots srDisabledAdSlots
+
+[MITM]
+enable = true
+h2 = true
+hostname = www.youtube.com,m.youtube.com
